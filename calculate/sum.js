@@ -1,12 +1,12 @@
 console.log("SUM Executed")
-function calculateSum(a, b) {
+function sum(a, b) {
     console.log(a + b);
 }
 let x = "value"
 z = 10// doesnt give error, runs in non-strict mode
-// module.exports = calculateSum;
+module.exports = { sum };
 // to export multiple
-module.exports = {
-    x, calculateSum
-}
+// module.exports = {
+//     x, sum
+// }
 

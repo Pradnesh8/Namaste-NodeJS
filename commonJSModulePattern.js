@@ -1,6 +1,6 @@
-const { x, calculateSum } = require('./sum');
+const { sum } = require('./calculate/sum');
 
 const a = 10
 const b = 20;
 
-calculateSum(a, b)
+sum(a, b)
