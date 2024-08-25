@@ -1,3 +1,4 @@
+require("./xyz")
 console.log("SUM Executed")
 function sum(a, b) {
     console.log(a + b);
