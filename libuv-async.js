@@ -25,7 +25,7 @@ let c = multiply(a, b)
 // after returning, result variable is garbage collected
 console.log("sync", c);
 
-
+// how nodeJS handles non blocking asynchronous IO:
 // Call stack
 // GEC
 // a = 10 store in memory
