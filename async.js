@@ -15,8 +15,6 @@ setTimeout(() => {
 fs.readFile('./polyfills.js', 'utf-8', (data) => {
     console.log("file data call");
 })
-// Blocks the main thread, Sync operation
-fs.readFileSync('./polyfills.js', 'utf-8')
 // v8 runs synchronously
 function multiply(x, y) {
     const result = x * y
