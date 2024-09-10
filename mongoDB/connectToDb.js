@@ -1,8 +1,10 @@
 const { MongoClient } = require('mongodb')
-const { URI } = require('./database.js');
+const dotenv = require('dotenv')
+dotenv.config()
+// const { URI } = require('./database.js');
 
 
-const client = new MongoClient(URI)
+const client = new MongoClient(process.env.MONGO_URI)
 
 // Database Name
 const dbName = 'User'
