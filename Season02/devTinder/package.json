@@ -1,0 +1,23 @@
+{
+    "name": "devtinder",
+    "version": "1.0.0",
+    "description": "Tinder for devs",
+    "main": "index.js",
+    "scripts": {
+        "start": "node src/app.js",
+        "dev": "nodemon src/app.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "devTinder",
+        "namaste",
+        "nodejs",
+        "nodejs",
+        "express"
+    ],
+    "author": "Pradnesh Khedekar",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.21.1"
+    }
+}
