@@ -1,21 +1,23 @@
 const express = require('express')
 const app = express()
 // NOTE: ORDER OF THE ROUTES MATTER A LOT, SO KEEP THIS IN MIND WHILE DECLARING REQUEST HANDLERS
-app.use(
-    "/hello", // PATH
-    // Request handler
-    (req, res) => {
-        res.send("Hello from server")
-    }
-)
 
-app.use(
-    "/test", // PATH
-    // Request handler
-    (req, res) => {
-        res.send("Test server")
-    }
-)
+app.get("/users", (req, res) => {
+    res.send("Users data fetched successfully")
+})
+
+app.post("/users", (req, res) => {
+    res.send("Users data added successfully")
+})
+
+app.put("/users", (req, res) => {
+    res.send("Users data updated successfully")
+})
+
+app.delete("/users", (req, res) => {
+    res.send("Users data deleted successfully")
+})
+
 // Always keep / path at the end OR request will be always handled by this handler
 app.use(
     "/", // PATH
