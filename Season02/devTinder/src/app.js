@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+// NOTE: ORDER OF THE ROUTES MATTER A LOT, SO KEEP THIS IN MIND WHILE DECLARING REQUEST HANDLERS
 app.use(
     "/hello", // PATH
     // Request handler
