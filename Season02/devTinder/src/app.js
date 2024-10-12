@@ -1,62 +1,57 @@
 const express = require('express')
 const app = express()
-// NOTE: ORDER OF THE ROUTES MATTER A LOT, SO KEEP THIS IN MIND WHILE DECLARING REQUEST HANDLERS
-// Exploring routehandlers & how it matches the patterns
-// will handle /xz, /xyz
-app.get("/xy?z", (req, res) => {
-    res.send("xy?z is working");
-})
-// will handle /xyz, /xyyyyyyyz
-app.get("/xy+z", (req, res) => {
-    res.send("xy+z is working");
-})
-// will handle /xyz, /xyyyyyyyz
-app.get("/xy*z", (req, res) => {
-    res.send("xy*z is working");
-})
-// will handle /xz, /xyxz
-app.get("/x(yx)?z", (req, res) => {
-    res.send("x(yx)?z is working");
-})
 
-// Exploring req.query
-app.get("/users", (req, res) => {
-    console.log("/users?userId=123&name=abc")
-    console.log(req.query)//{ userId: '123',name:'abc' }
-    res.send("Users data fetched successfully")
-})
-// Exploring req.params
-app.get("/users/:userId/:name", (req, res) => {
-    console.log("/users/:userId/:name")
-    console.log(req.params)//{ userId: '123',name:'abc' }
-    res.send("Users data fetched successfully")
-})
-
-app.post("/users", (req, res) => {
-    res.send("Users data added successfully")
-})
-
-app.put("/users", (req, res) => {
-    res.send("Users data updated successfully")
-})
-
-app.delete("/users", (req, res) => {
-    res.send("Users data deleted successfully")
-})
-
-app.use("/timeoutTest", (req, res) => {
-    console.log("It will keep waiting for response from server")
-    // As there is no res returned here, it will be waiting and eventually will be timedout
-})
-
-// Always keep / path at the end OR request will be always handled by this handler
-app.use(
-    "/", // PATH
-    // Request handler
-    (req, res) => {
-        res.send("Welcome to devTinder server, No such route")
-    }
+app.use("/user",
+    // we can use N no. of middlewares / request handlers
+    (req, res, next) => {
+        console.log("Req handler1 called")
+        // res.send("Req handler1")
+        next() // moves the control to next middleware
+        // run same way as JS code in call stack
+        // if we use res.send and next then send will return response 
+        // and control will move to next request handler/ middleware,
+        // in that also if response is getting returned then error will be thrown at server console
+    },
+    (req, res, next) => {
+        console.log("Req handler2 called")
+        next();
+        // In this case, as next is called before res.send, it will move to next middleware for execution,
+        // once that is completed it will comeback here and execute further code
+        res.send("Req handler2")
+    },
+    (req, res, next) => {
+        console.log("Req handler3 called")
+        res.send("Req handler3")
+        // If we don't add next() it will not call the next middleware function
+    },
+    (req, res, next) => {
+        console.log("Req handler3 called")
+        res.send("Req handler3")
+    },
 )
+
+// no route handler case
+app.use("/nomiddleware",
+    (req, res, next) => {
+        console.log("Req handler1 called")
+        next()
+    },
+    (req, res, next) => {
+        console.log("Req handler2 called")
+        next()
+    },
+    (req, res, next) => {
+        console.log("Req handler3 called")
+        next()
+    },
+) // will give Cannot GET /nomiddleware as there is no res.send or response is not handled, so it is basically not able to resolve the req
+
+// different ways you can define request Handlers
+// app.use("/route",rh1,rh2,[rh3,rh4],rh5)
+// app.use("/route",rh1,[rh2,rh3,rh4],rh5)
+// app.use("/route",[rh1,rh2,rh3,rh4,rh5])
+// app.use("/route",rh1,rh2,rh3,rh4,rh5)
+// all will work same 
 app.listen(7777, () => {
     console.log("Running server on port 7777")
 })
