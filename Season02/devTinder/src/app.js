@@ -44,6 +44,10 @@ app.delete("/users", (req, res) => {
     res.send("Users data deleted successfully")
 })
 
+app.use("/timeoutTest", (req, res) => {
+    console.log("It will keep waiting for response from server")
+    // As there is no res returned here, it will be waiting and eventually will be timedout
+})
 
 // Always keep / path at the end OR request will be always handled by this handler
 app.use(
