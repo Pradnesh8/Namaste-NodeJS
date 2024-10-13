@@ -78,6 +78,32 @@ app.use("/nomiddleware",
 // app.use("/route",[rh1,rh2,rh3,rh4,rh5])
 // app.use("/route",rh1,rh2,rh3,rh4,rh5)
 // all will work same 
+
+
+app.get("/throwError", (req, res) => {
+    throw new Error("RANDOM ERROR")
+})
+
+
+// best way to write the middleware is that all the code should be wrapped under try catch block and error is handled in the catch block
+app.get("/handledUser", (req, res) => {
+    try {
+        // logic to connect DB etc
+        res.send("USER HANDLED")
+    } catch (err) {
+        // log the error in some file or log it in monitoring
+        res.status(500).send("SPECIFIC MESSAGE")
+    }
+})
+
+// Order of params matters, if err object is required in middleware we must use 4 params
+// below middleware will capture any random error which is not handled in any of the above middlewares/request hanlders
+// it gracefully handles error and hides unnecessary information from leaking
+app.use("/", (err, req, res, next) => {
+    if (err) {
+        res.status(500).send("Something went wrong")
+    }
+})
 app.listen(7777, () => {
     console.log("Running server on port 7777")
 })
