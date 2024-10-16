@@ -58,6 +58,59 @@ app.get("/feed", async (req, res) => {
     }
 })
 
+// DELETE /user - Delete user from collection
+app.delete("/user", async (req, res) => {
+    try {
+        const id = req.body.id;
+        const user = await User.findByIdAndDelete(id);
+        // console.log("deleted", user)
+        // same as const users = await User.findByIdAndDelete({_id:id});
+        if (!user) {
+            res.status(404).send("User not found")
+        } else {
+            res.send("User deleted successfully")
+        }
+    } catch (error) {
+        res.status(400).send("Something went wrong")
+    }
+})
+
+// UPDATE /user - Update user by id
+app.patch("/user/:userId", async (req, res) => {
+    try {
+        const id = req.params.userId;
+        const data = req.body
+        const user = await User.findByIdAndUpdate(id, data);
+        // console.log("updated", user)
+        // same as const users = await User.findByIdAndDelete({_id:id});
+        if (!user) {
+            res.status(404).send("User not found")
+        } else {
+            res.send("User updated successfully")
+        }
+    } catch (error) {
+        res.status(400).send("Something went wrong")
+    }
+})
+
+// UPDATE /user - Update user by emailId
+app.patch("/user", async (req, res) => {
+    try {
+        const email = req.body.emailId;
+        const data = req.body
+        const user = await User.findOneAndUpdate({ emailId: email }, data);
+        // console.log("updated", user)
+        // same as const users = await User.findByIdAndDelete({_id:id});
+        if (!user) {
+            res.status(404).send("User not found")
+        } else {
+            res.send("User updated successfully")
+        }
+    } catch (error) {
+        res.status(400).send("Something went wrong")
+    }
+})
+
 connectDB().then(() => {
     console.log("Successfully connected to DB")
     app.listen(7777, () => {
