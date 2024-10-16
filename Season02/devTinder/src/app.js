@@ -19,6 +19,45 @@ app.post("/signup", async (req, res) => {
     }
 })
 
+// GET user by emailId
+app.get("/user", async (req, res) => {
+    try {
+        const email = req.body.emailId;
+        const user = await User.findOne({ emailId: email });
+        if (!user) {
+            res.status(404).send("User not found");
+        } else {
+            res.send(user)
+        }
+    } catch (error) {
+        res.status(500).send("Something went wrong")
+    }
+})
+// GET user by _id
+app.get("/user/:id", async (req, res) => {
+    try {
+        const id = req.params.id;
+        const user = await User.findById(id);
+        if (!user) {
+            res.status(404).send("User not found");
+        } else {
+            res.send(user)
+        }
+    } catch (error) {
+        res.status(400).send("Something went wrong")
+    }
+})
+
+// GET /feed - all the users from users collection
+app.get("/feed", async (req, res) => {
+    try {
+        const users = await User.find({});
+        res.send(users)
+    } catch (error) {
+        res.status(400).send("Something went wrong")
+    }
+})
+
 connectDB().then(() => {
     console.log("Successfully connected to DB")
     app.listen(7777, () => {
