@@ -15,7 +15,7 @@ app.post("/signup", async (req, res) => {
         await user.save()
         res.send("User added successfully")
     } catch (err) {
-        res.status(400).send("Error adding user, err: ", err.message)
+        res.status(400).send("Error adding user, err: " + err.message)
     }
 })
 
@@ -80,7 +80,7 @@ app.patch("/user/:userId", async (req, res) => {
     try {
         const id = req.params.userId;
         const data = req.body
-        const user = await User.findByIdAndUpdate(id, data);
+        const user = await User.findByIdAndUpdate(id, data, { runValidators: true });
         // console.log("updated", user)
         // same as const users = await User.findByIdAndDelete({_id:id});
         if (!user) {
@@ -89,7 +89,7 @@ app.patch("/user/:userId", async (req, res) => {
             res.send("User updated successfully")
         }
     } catch (error) {
-        res.status(400).send("Something went wrong")
+        res.status(400).send("ERROR UPDATING USER " + error.message)
     }
 })
 
@@ -98,7 +98,7 @@ app.patch("/user", async (req, res) => {
     try {
         const email = req.body.emailId;
         const data = req.body
-        const user = await User.findOneAndUpdate({ emailId: email }, data);
+        const user = await User.findOneAndUpdate({ emailId: email }, data, { runValidators: true });
         // console.log("updated", user)
         // same as const users = await User.findByIdAndDelete({_id:id});
         if (!user) {
