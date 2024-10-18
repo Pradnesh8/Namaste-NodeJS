@@ -85,7 +85,7 @@ app.patch("/user/:userId", async (req, res) => {
         if (!isUpdateAllowed) {
             throw new Error("Update is not allowed")
         }
-        if (data?.skill.length > 10) {
+        if (data?.skill && data?.skill.length > 10) {
             throw new Error("Cannot add more than 10 skills")
         }
         const user = await User.findByIdAndUpdate(id, data, { runValidators: true });
