@@ -4,8 +4,13 @@ const User = require("./models/user")
 const app = express()
 const { validateSignUpData } = require("./utils/validation")
 const bcrypt = require('bcrypt')
+const cookieParser = require('cookie-parser')
+const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv')
+dotenv.config()
 // using middleware to parse the JSON payloads
 app.use(express.json())
+app.use(cookieParser())
 
 app.post("/signup", async (req, res) => {
     try {
@@ -41,6 +46,8 @@ app.post("/login", async (req, res) => {
         if (!isPasswordValid) {
             throw new Error("EmailId or Password is not correct")
         } else {
+            const jwtToken = await jwt.sign({ _id: user._id }, process.env.SECRET_KEY)
+            res.cookie('token', jwtToken)
             res.send("Login Successful!")
         }
     } catch (err) {
@@ -145,6 +152,28 @@ app.patch("/user", async (req, res) => {
         }
     } catch (error) {
         res.status(400).send("Something went wrong")
+    }
+})
+
+app.get("/profile", async (req, res) => {
+    try {
+        const { token } = req.cookies
+        if (!token) {
+            throw new Error("Invalid token");
+        }
+        const decryptedData = await jwt.verify(token, process.env.SECRET_KEY);
+        const { _id } = decryptedData;
+        const user = await User.findById(_id);
+        if (!user) {
+            throw new Error("User does not exist, Please sign up!")
+        }
+        const resObj = { ...user._doc }
+
+        delete resObj.password
+        console.log("USER", resObj)
+        res.send(resObj)
+    } catch (error) {
+        res.status(400).send("ERROR : " + error.message)
     }
 })
 
