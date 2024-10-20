@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 
 const userSchema = new mongoose.Schema({
     'firstName': {
@@ -67,6 +69,22 @@ const userSchema = new mongoose.Schema({
 
 }, { timestamps: true })
 // timestamps adds created_at, updated_at
+
+// userSchema.methods - these methods are common use cases which requires user object and APIs offloads that logic to schema 
+userSchema.methods.getJWT = async function () {
+    // 'this' keyword is being used  to access user object, arrow function will break the logic
+    const user = this; // this means the user object
+    const token = await jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: "7d" })
+    return token;
+}
+
+userSchema.methods.validatePassword = async function (passwordInputByUser) {
+    // destructuring User object to get password
+    const { password } = this
+    // comparing password given by user and password from DB
+    const isPasswordValid = await bcrypt.compare(passwordInputByUser, password);
+    return isPasswordValid;
+}
 
 const User = mongoose.model('user', userSchema)
 

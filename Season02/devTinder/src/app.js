@@ -43,11 +43,13 @@ app.post("/login", async (req, res) => {
         if (!user) {
             throw new Error("EmailId or Password is not correct")
         }
-        const isPasswordValid = await bcrypt.compare(password, user.password);
+        // using userSchema.method to compare passwords
+        const isPasswordValid = await user.validatePassword(password);
         if (!isPasswordValid) {
             throw new Error("EmailId or Password is not correct")
         } else {
-            const jwtToken = await jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: "7d" })
+            // using userSchema.method to get Jwt
+            const jwtToken = await user.getJWT()
             res.cookie('token', jwtToken, { expires: new Date(Date.now() + 900000) })
             res.send("Login Successful!")
         }
