@@ -1,5 +1,5 @@
 const express = require('express')
-const { adminAuth, userAuth } = require('./middlewares/authHandler')
+const { adminAuth, userAuth } = require('./middlewares/authHandler_practice')
 const app = express()
 
 // HOW EXPRESS WORKS

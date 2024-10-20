@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt')
 const cookieParser = require('cookie-parser')
 const jwt = require('jsonwebtoken')
 const dotenv = require('dotenv')
+const { userAuth } = require('./middlewares/authHandler')
 dotenv.config()
 // using middleware to parse the JSON payloads
 app.use(express.json())
@@ -155,25 +156,20 @@ app.patch("/user", async (req, res) => {
     }
 })
 
-app.get("/profile", async (req, res) => {
+app.get("/profile", userAuth, async (req, res) => {
     try {
-        const { token } = req.cookies
-        if (!token) {
-            throw new Error("Invalid token");
-        }
-        const decryptedData = await jwt.verify(token, process.env.SECRET_KEY);
-        const { _id } = decryptedData;
-        const user = await User.findById(_id);
-        if (!user) {
-            throw new Error("User does not exist, Please sign up!")
-        }
-        const resObj = { ...user._doc }
-
-        delete resObj.password
-        console.log("USER", resObj)
-        res.send(resObj)
+        const user = req.user
+        res.send(user)
     } catch (error) {
         res.status(400).send("ERROR : " + error.message)
+    }
+})
+
+app.post("/sendConnectionRequest", userAuth, async (req, res) => {
+    try {
+        res.send("Connection sent successfully!")
+    } catch (err) {
+        res.status(400).send("ERROR : " + err.message)
     }
 })
 
