@@ -47,8 +47,8 @@ app.post("/login", async (req, res) => {
         if (!isPasswordValid) {
             throw new Error("EmailId or Password is not correct")
         } else {
-            const jwtToken = await jwt.sign({ _id: user._id }, process.env.SECRET_KEY)
-            res.cookie('token', jwtToken)
+            const jwtToken = await jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: "7d" })
+            res.cookie('token', jwtToken, { expires: new Date(Date.now() + 900000) })
             res.send("Login Successful!")
         }
     } catch (err) {
