@@ -18,4 +18,12 @@ const validateSignUpData = (req) => {
     }
 }
 
-module.exports = { validateSignUpData }
+
+const validateProfileEditData = (req) => {
+    const validateFields = ["firstName", "lastName", "age", "about", "skill", "photo_url"]
+    const isValid = Object.keys(req.body).every(field => validateFields.includes(field));
+    if (!isValid) {
+        throw new Error("Invalid input request")
+    }
+}
+module.exports = { validateSignUpData, validateProfileEditData }

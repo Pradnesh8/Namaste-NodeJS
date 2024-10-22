@@ -15,11 +15,11 @@ const userAuth = async (req, res, next) => {
         if (!user) {
             throw new Error("User does not exist, Please sign up!")
         }
-        // making copy of user data
-        const resObj = { ...user._doc }
+        // making copy of user data - was not keeping it instance of user model if i create a copy
+        // const resObj = { ...user._doc }
         // removing password field from user data
-        delete resObj.password
-        req.user = resObj;
+        // delete resObj.password
+        req.user = user;
         next()
     } catch (err) {
         res.status(400).send("ERROR : " + err.message)
