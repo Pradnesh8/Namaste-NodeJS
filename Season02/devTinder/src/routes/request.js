@@ -9,12 +9,12 @@ requestRouter.post("/request/send/:status/:toUserId", userAuth, async (req, res)
         const fromUserId = req.user._id
         const toUserId = req.params.toUserId
         const status = req.params.status
-
-        if (fromUserId == toUserId) {
-            return res.status(400).json({
-                message: "Invalid Connection Request, Can't send connection to yourself."
-            })
-        }
+        // Added validation in pre middleware at schema level
+        // if (fromUserId == toUserId) {
+        //     return res.status(400).json({
+        //         message: "Invalid Connection Request, Can't send connection to yourself."
+        //     })
+        // }
 
         const allowedStatus = ['ignored', 'interested'];
 
