@@ -24,8 +24,8 @@ requestRouter.post("/request/send/:status/:toUserId", userAuth, async (req, res)
             })
         }
 
-        const checkIfUserExists = await User.findById(toUserId)
-        if (!checkIfUserExists) {
+        const checkIfToUserExists = await User.findById(toUserId)
+        if (!checkIfToUserExists) {
             return res.status(404).json({
                 message: "User which you are trying to send connection request, does not exists!"
             })
