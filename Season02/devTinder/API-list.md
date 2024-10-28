@@ -15,9 +15,10 @@ profileRouter
 connectionRequestRouter
 
 -   POST /request/send/:status/:userId
+    status can be [interested,ignored]
 
--   POST /request/review/accepted/:userId
--   POST /request/review/rejected/:userId
+-   POST /request/review/:status/:userId
+    status can be [accepted,rejected]
 
 userRouter
 
