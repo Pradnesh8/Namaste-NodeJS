@@ -28,7 +28,6 @@ connectionRequestSchema.index({
 // DEMO pre middleware for validation in model
 connectionRequestSchema.pre('save', function (next) {
     const connectionRequest = this;
-    console.log('req', connectionRequest)
     if (connectionRequest.fromUserId == connectionRequest.toUserId) {
         throw new Error("Invalid Connection Request, Can't send connection to yourself.")
     }
