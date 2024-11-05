@@ -56,9 +56,16 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
 })
 
 // GET Feed
+// query params page, limit
 userRouter.get("/feed", userAuth, async (req, res) => {
     try {
         const loggedInUser = req.user;
+
+        const page = parseInt(req.query.params) || 1;
+        let limit = parseInt(req.query.params) || 10;
+        limit = limit > 100 ? 100 : limit;
+        const skip = (page - 1) * limit;
+
         // Show all the users from DB except
         // 0. logged in user profile
         // 1. users from which logged in user request/received connection
@@ -82,7 +89,7 @@ userRouter.get("/feed", userAuth, async (req, res) => {
                 { _id: { $nin: Array.from(hideUserProfiles) } },
                 { _id: { $ne: loggedInUser._id } }
             ]
-        }).select(SAFE_USER_FIELDS.join(" "))
+        }).select(SAFE_USER_FIELDS.join(" ")).skip(skip).limit(limit);
 
         res.send(users)
     } catch (err) {
