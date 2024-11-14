@@ -42,7 +42,7 @@ authRouter.post("/login", async (req, res) => {
             // using userSchema.method to get Jwt
             const jwtToken = await user.getJWT()
             res.cookie('token', jwtToken, { expires: new Date(Date.now() + 900000) })
-            res.send("Login Successful!")
+            res.send(user)
         }
     } catch (err) {
         res.status(400).send("ERROR: " + err.message)
