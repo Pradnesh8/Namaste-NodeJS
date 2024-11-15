@@ -1,10 +1,10 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { removeUser } from './utils/userSlice'
+import { removeUser } from '../utils/userSlice'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { BASE_URL } from './utils/constants'
-import { deleteCookie } from './utils/helper'
+import { BASE_URL } from '../utils/constants'
+import { deleteCookie } from '../utils/helper'
 
 const NavBar = () => {
     const user = useSelector(store => store.user)
