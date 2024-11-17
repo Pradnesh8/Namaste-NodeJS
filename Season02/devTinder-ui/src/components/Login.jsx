@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addUser } from '../utils/userSlice';
 import { BASE_URL } from '../utils/constants';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+    const user = useSelector(store => store.user)
     const [emailId, setEmailId] = useState("")
     const [password, setPassword] = useState("")
     const dispatch = useDispatch()
@@ -23,6 +24,14 @@ const Login = () => {
             console.error(error)
         }
     }
+    const checkIfLoggedIn = () => {
+        if (user) {
+            navigate("/")
+        }
+    }
+    useEffect(() => {
+        checkIfLoggedIn();
+    }, [user])
     return (
         <div className='flex justify-center my-32'>
             <div className="card bg-base-300 w-96 shadow-xl">
