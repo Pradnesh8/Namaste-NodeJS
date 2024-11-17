@@ -9,6 +9,7 @@ const Login = () => {
     const user = useSelector(store => store.user)
     const [emailId, setEmailId] = useState("")
     const [password, setPassword] = useState("")
+    const [errMsg, setErrMsg] = useState("")
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const submitHandler = async () => {
@@ -20,8 +21,9 @@ const Login = () => {
             console.log(res.data)
             dispatch(addUser(res.data));
             navigate("/")
-        } catch (error) {
-            console.error(error)
+        } catch (err) {
+            setErrMsg(err?.response?.data || "Something went wrong")
+            console.error(err)
         }
     }
     const checkIfLoggedIn = () => {
@@ -49,6 +51,7 @@ const Login = () => {
                         </div>
                         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="input input-bordered w-full max-w-xs" />
                     </label>
+                    <div className='text-error'>{errMsg}</div>
                     <div className="card-actions justify-center mt-4">
                         <button className="btn btn-primary w-1/3" onClick={submitHandler}>Submit</button>
                     </div>
