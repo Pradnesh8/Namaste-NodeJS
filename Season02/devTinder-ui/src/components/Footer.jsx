@@ -2,7 +2,7 @@ import React from 'react'
 
 const Footer = () => {
     return (
-        <footer className="footer bg-base-300 text-neutral-content items-center p-4 absolute bottom-0">
+        <footer className="footer bg-base-300 text-neutral-content items-center p-4 ">
             <aside className="grid-flow-col items-center">
                 <p>Copyright © {new Date().getFullYear()} - All right reserved</p>
             </aside>
