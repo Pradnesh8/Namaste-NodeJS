@@ -5,7 +5,6 @@ const feedSlice = createSlice({
     initialState: null,
     reducers: {
         addFeed: (state, action) => {
-            console.log("IN SLICE")
             return action.payload
         },
         removeFeed: (state, action) => null
