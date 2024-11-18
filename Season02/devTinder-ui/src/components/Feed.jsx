@@ -2,10 +2,11 @@ import axios from 'axios'
 import React, { useEffect } from 'react'
 import { BASE_URL } from '../utils/constants'
 import { addFeed } from '../utils/feedSlice'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 const Feed = () => {
+    const dispatch = useDispatch()
     const feed = useSelector(store => store.feed)
     const navigate = useNavigate()
     const getFeed = async () => {
@@ -16,7 +17,7 @@ const Feed = () => {
             }
             const res = await axios.get(BASE_URL + "/feed", { withCredentials: true });
             console.log(res?.data);
-            addFeed(res?.data);
+            dispatch(addFeed(res?.data));
         } catch (err) {
             console.error(err);
             if (err.status === 401)
