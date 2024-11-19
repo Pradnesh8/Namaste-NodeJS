@@ -20,7 +20,7 @@ const validateSignUpData = (req) => {
 
 
 const validateProfileEditData = (req) => {
-    const validateFields = ["firstName", "lastName", "age", "about", "skill", "photo_url"]
+    const validateFields = ["firstName", "lastName", "age", "about", "gender", "skill", "photo_url"]
     const isValid = Object.keys(req.body).every(field => validateFields.includes(field));
     if (!isValid) {
         throw new Error("Invalid input request")
