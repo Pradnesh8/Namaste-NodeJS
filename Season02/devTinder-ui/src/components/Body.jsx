@@ -28,7 +28,9 @@ const Body = () => {
         <>
             <NavBar />
             {/* Renders child components based on route */}
-            <Outlet />
+            <div className='min-h-screen'>
+                <Outlet />
+            </div>
             <Footer />
         </>
     )
