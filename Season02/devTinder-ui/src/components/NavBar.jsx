@@ -6,6 +6,7 @@ import axios from 'axios'
 import { BASE_URL } from '../utils/constants'
 import { removeConnections } from '../utils/connectionSlice'
 import { removeFeed } from '../utils/feedSlice'
+import { removeAllRequests } from '../utils/requestSlice'
 
 const NavBar = () => {
     const user = useSelector(store => store.user)
@@ -17,6 +18,7 @@ const NavBar = () => {
             dispatch(removeUser())
             dispatch(removeConnections())
             dispatch(removeFeed())
+            dispatch(removeAllRequests())
             navigate("/login")
         } catch (err) {
             console.error(err);
@@ -64,7 +66,7 @@ const NavBar = () => {
                             </li>
                             <li>
                                 <Link to="/requests">
-                                    Requests
+                                    Pending Requests
                                 </Link>
                             </li>
                             <li onClick={logoutHandler}><a>Logout</a></li>
