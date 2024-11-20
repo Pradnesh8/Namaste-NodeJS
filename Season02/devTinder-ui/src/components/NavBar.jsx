@@ -4,6 +4,8 @@ import { removeUser } from '../utils/userSlice'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { BASE_URL } from '../utils/constants'
+import { removeConnections } from '../utils/connectionSlice'
+import { removeFeed } from '../utils/feedSlice'
 
 const NavBar = () => {
     const user = useSelector(store => store.user)
@@ -13,6 +15,8 @@ const NavBar = () => {
         try {
             const res = await axios.post(BASE_URL + "/logout", {}, { withCredentials: true })
             dispatch(removeUser())
+            dispatch(removeConnections())
+            dispatch(removeFeed())
             navigate("/login")
         } catch (err) {
             console.error(err);
@@ -53,7 +57,16 @@ const NavBar = () => {
                                     <span className="badge">New</span>
                                 </Link>
                             </li>
-                            <li><a>Settings</a></li>
+                            <li>
+                                <Link to="/connections">
+                                    Connections
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/requests">
+                                    Requests
+                                </Link>
+                            </li>
                             <li onClick={logoutHandler}><a>Logout</a></li>
                         </ul>
                     </div>
