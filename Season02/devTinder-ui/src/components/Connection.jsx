@@ -22,7 +22,7 @@ const Connection = () => {
     if (connections?.length === 0) return (
         <h1 className='text-3xl font-bold text-center my-10'>You don't have any connections</h1>
     )
-    return (
+    return connections?.length > 0 && (
         <div>
             <h1 className='text-3xl font-bold text-center my-10'>Connections</h1>
             <div>
