@@ -3,6 +3,7 @@ const { userAuth } = require('../middlewares/authHandler')
 const { ConnectionRequest } = require('../models/connectionRequest')
 const User = require('../models/user')
 const requestRouter = express.Router()
+const sendEmail = require("../utils/sendEmail");
 
 requestRouter.post("/request/send/:status/:toUserId", userAuth, async (req, res) => {
     try {
@@ -52,6 +53,11 @@ requestRouter.post("/request/send/:status/:toUserId", userAuth, async (req, res)
             status
         })
         const savedConnectionRequestData = await sendConnectionRequest.save()
+        try {
+            await sendEmail.run();
+        } catch (error) {
+            console.error("Error sending an Email: ", error)
+        }
         res.json({ message: "Connection sent successfully!", data: savedConnectionRequestData })
     } catch (err) {
         res.status(400).send("ERROR : " + err.message)
